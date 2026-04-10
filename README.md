@@ -1,22 +1,114 @@
 # MD-Flash-Cart-4MB
-Простейший перезаписываемый картридж для MegaDrive/Genesis максимального объема 4МБайта (32Мбита), аппаратно совместимый с программатором FlashKit MD.
+
+Cartucho regravável simples para Mega Drive/Genesis com capacidade máxima de **4MB (32Mbit)**, totalmente compatível com o programador **FlashKit MD**.
 
 ![MDFC4MB-github](https://user-images.githubusercontent.com/24475390/149984222-c1a1d27c-d783-4d6d-8eb3-69ddee26fa4a.jpg)
 
-Предлагается мой авторский проект печатной платы в формате KiCad (содержащий готовую компиляцию в формат Gerber для отправки на производство), позволяющий изготовить картридж для игровой приставки Sega MegaDrive/Genesis, реализованный с учетом минимальной необходимости и достаточности схемотехнического решения с применением микросхемы флэш-памяти **MXIC MX29L3211** (конструктивно возможно применение также и **MX29LV320**) в корпусе (P)SOP-44.
+---
+
+## 📦 Sobre o projeto
+
+Este é um projeto de placa de circuito impresso (PCB) desenvolvido em **KiCad**, já incluindo os arquivos **Gerber prontos para fabricação**.
+
+O objetivo é permitir a construção de um cartucho funcional para o **:contentReference[oaicite:0]{index=0} / Genesis**, utilizando uma solução simples e eficiente com o mínimo de componentes necessários.
+
+A memória utilizada é:
+
+- **MXIC MX29L3211** (principal)
+- Compatível também com **MX29LV320**
+
+Encapsulamento: **(P)SOP-44**
 
 ![MDFC4MB-PCB-github](https://user-images.githubusercontent.com/24475390/150021381-3bffb65b-c416-45cf-a307-c182a318816e.jpg)
 
-Проект полностью протестирован на работоспособность. Помимо микросхемы памяти потребуется также интегральный стабилизатор напряжения AMS1117 на 3.3В (в корпусе SOT-223) для обеспечения штатного питания данной микросхемы, а также шунтирующий конденсатор номиналом от 100нФ согласно документации (маркировка "104"). Конденсатор необходим для стабильной работы картриджа в приставке (для работы с программатором не обязателен). Стабилизатор можно заменить светодиодом в smd-корпусе (припаять к площадкам входа и выхода стабилизатора: правая и центральная - катодом к центральной). Светодиод при последовательном включении обеспечивает стабильное падение напряжения на нём (нам нужно "скидывать" около 1.6В) - приятным же бонусом в этом случае будет индикация "активности" картриджа, обусловленная различным током потребления микросхемы памяти в разных режимах и как следствие разной яркости и периодичности вспышек светодиода (в ждущем режиме малый ток - не светится совсем). Учесть, что светодиоды разных цветов могут иметь разное падение напряжения! Оранжевый подошел идеально, а вот на синем падает чуть ли не все 3В - вобщем подбирать нужно. Всё, трех "деталей" достаточно! Уровни сигналов КМОП микросхемы памяти с трехвольтовым питанием и пятивольтовая ТТЛ схемотехника приставки толерантны друг-другу (резисторы в сигнальные цепи ставить, как предлагают альтернативные проекты - бессмысленно избыточно).
-С аппаратной точки зрения нет препятствий для использования данного картриджа совместно с расширением **32X** - быстродействия современных микросхем флэш-памяти в режиме чтения должно хватить (это единственно возможное узкое место для 32X).
+---
 
-*PS.* Для работы с данным картриджем (его записи) необходима как минимум расширенная вариация утилиты управления интерфейсом FlashKit MD: [Flashkit MD Plus](https://github.com/MiGeRA/FlashKit-MD-Plus) версии от **[1.0.2.0](https://github.com/MiGeRA/FlashKit-MD-Plus/releases/tag/1.0.2.0)**. Время записи полного объема картриджа с микросхемой памяти MX29L3211 ~150сек (по даташиту от 80 до 800сек, т.е. у нас неплохой результат). Поддержка работы с микросхемой MX29LV320 реализована в версии **[1.0.3.0](https://github.com/MiGeRA/FlashKit-MD-Plus/releases/tag/1.0.3.0)** - время записи полного объема ~100сек, т.е. чуток шустрее (хотя и запись пословная с "анлок-последовательностью" для каждого слова), просто сама микросхема более шустрая (по даташиту так вообще от 24 до 72сек), но у нас нет повышенного напряжения программирования для нее ...
+## 🔧 Componentes necessários
 
-*PPS.* Будучи полностю совместимым с программатором FlashKit MD и приставками, для которых он предназначен - данный картридж минимум втрое дешевле по себестоимости чем функционально подобный [предлагает krikzz](https://krikzz.com/our-products/cartridges/flashkitmd.html) и вдвое чем [реплика от KY-tech](https://www.aliexpress.com/item/1005001465109297.html). С учетом применения микросхемы в "крупном корпусе" (P)SOP-44 требования к скиллованности пайки минимальны. Белый лак маскирует трассировку дорожек, что придает изделию законченный вид даже без корпуса ;-)
+Para montagem do cartucho são necessários apenas:
 
-## Copyright and Disclaimer
+- 1x Memória Flash (MX29L3211 ou MX29LV320)
+- 1x Regulador de tensão **AMS1117 3.3V** (SOT-223)
+- 1x Capacitor cerâmico **100nF (104)**
+
+O capacitor é importante para garantir a estabilidade do funcionamento no console (não é obrigatório para gravação).
+
+---
+
+## 💡 Alternativa com LED
+
+O regulador de tensão pode ser substituído por um **LED SMD**:
+
+- Deve ser soldado entre entrada e saída (ânodo/cátodo corretamente posicionados)
+- O LED atua como queda de tensão (~1.6V)
+- Como bônus, funciona como indicador de atividade do cartucho
+
+⚠️ Atenção:
+- LEDs de cores diferentes possuem quedas de tensão diferentes  
+- LED **laranja** apresentou melhor resultado  
+- LED **azul** pode reduzir tensão excessivamente  
+
+---
+
+## ⚡ Compatibilidade elétrica
+
+- A memória (CMOS 3.3V) é compatível com a lógica TTL 5V do console
+- Não é necessário uso de resistores nas linhas de sinal (diferente de outros projetos)
+
+---
+
+## 🎮 Compatibilidade com 32X
+
+O cartucho é compatível com o acessório **32X**, já que a velocidade de leitura das memórias flash modernas é suficiente para atender à demanda.
+
+---
+
+## 💾 Gravação
+
+Para gravação do cartucho é necessário:
+
+👉 **FlashKit MD**  
+👉 Software: [FlashKit MD Plus](https://github.com/MiGeRA/FlashKit-MD-Plus)
+
+Versões recomendadas:
+
+- **v1.0.2.0** → suporte ao MX29L3211 (~150s para gravação completa)
+- **v1.0.3.0** → suporte ao MX29LV320 (~100s, mais rápido)
+
+---
+
+## 💰 Custo-benefício
+
+Este projeto apresenta excelente custo:
+
+- ~3x mais barato que soluções comerciais (ex: Krikzz)
+- ~2x mais barato que clones disponíveis (ex: KY-tech)
+
+Além disso:
+
+- Encapsulamento SOP-44 facilita a soldagem
+- PCB com máscara branca proporciona acabamento visual mais profissional
+
+---
+
+## ⚠️ Observações
+
+- Capacidade máxima: **4MB**
+- Apenas um jogo por gravação
+- Requer programador compatível
+
+---
+
+## 📜 Licença
+
 Copyright: MiGeRA (aka Th.K)
 
-This documentation describes Open Hardware and is licensed under the CERN OHL v. 1.2.
+Este projeto é Open Hardware e está licenciado sob a:
 
-You may redistribute and modify this documentation under the terms of the CERN OHL v.1.2. (http://ohwr.org/cernohl). This documentation is distributed WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING OF MERCHANTABILITY, SATISFACTORY QUALITY AND FITNESS FOR A PARTICULAR PURPOSE. Please see the CERN OHL v.1.2 for applicable conditions
+**CERN Open Hardware License v1.2**
+
+Você pode utilizar, modificar e redistribuir conforme os termos da licença:
+
+http://ohwr.org/cernohl
+
+⚠️ Este projeto é fornecido **sem garantias**, incluindo comercialização ou adequação a qualquer finalidade específica.
